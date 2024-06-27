@@ -445,7 +445,9 @@
         {
             if (header.Length >= HeaderTitleLength)
             {
-                return Encoding.ASCII.GetString(header, HeaderTitleOffset, HeaderTitleLength);
+                // Despite SNESdev documentation, this is Shift-JIS/CP932 in Japanese ROMs, a superset of ASCII
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                return Encoding.GetEncoding(932).GetString(header, HeaderTitleOffset, HeaderTitleLength);
             }
 
             return string.Empty;
